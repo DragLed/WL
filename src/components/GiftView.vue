@@ -17,7 +17,7 @@ const price = ref(0);
 const photo = ref('');
 
 function GetGifts(id) {
-  axios.get(`https://trial-flickr-married-emerald.trycloudflare.com/gift_by_id?gift_id=${id}`)
+  axios.get(`https://arbitration-yours-discounts-exports.trycloudflare.com/gift_by_id?gift_id=${id}`)
     .then(response => {
       Gifts.value = response.data;
       loading.value = false;
@@ -37,13 +37,12 @@ function post() {
 }
 
 function edit_gift(idVal, nameVal, descVal, priceVal, photoVal) {
-  axios.put(`hhttps://trial-flickr-married-emerald.trycloudflare.com/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
+  axios.put(`https://arbitration-yours-discounts-exports.trycloudflare.com/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
     .then(() => {
       GetGifts(giftId);
     })
     .catch(() => {});
 }
-
 onMounted(() => {
   GetGifts(giftId);
 });
