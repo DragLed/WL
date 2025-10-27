@@ -12,7 +12,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('http://45.144.176.58/all_gifts')
+  axios.get('https://trial-flickr-married-emerald.trycloudflare.com/all_gifts')
     .then(response => {
       Gidts.value = response.data;
     })
@@ -29,7 +29,7 @@ function PostGift() {
       price: price.value,
       photo: photo.value
     };
-    axios.post('http://45.144.176.58/new_gift', null, { params: newGift })
+    axios.post('https://trial-flickr-married-emerald.trycloudflare.com/new_gift', null, { params: newGift })
       .then(response => {
         console.log(response.data);
         GetGifts();
@@ -47,7 +47,7 @@ function PostGift() {
 }
 
 function DelGift(id) {
-  axios.delete(`http://45.144.176.58/delete_gift?gift_id=${id}`)
+  axios.delete(`https://trial-flickr-married-emerald.trycloudflare.com/delete_gift?gift_id=${id}`)
     .then(() => {
       GetGifts();
     })

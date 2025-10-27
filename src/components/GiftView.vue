@@ -6,6 +6,8 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const giftId = parseInt(route.params.id);
 
+const IPAPI = "https://trial-flickr-married-emerald.trycloudflare.com"
+
 const Gifts = ref(null);
 const loading = ref(true);
 const id = ref(0);
@@ -15,7 +17,7 @@ const price = ref(0);
 const photo = ref('');
 
 function GetGifts(id) {
-  axios.get(`http://45.144.176.58/gift_by_id?gift_id=${id}`)
+  axios.get(`https://trial-flickr-married-emerald.trycloudflare.com/gift_by_id?gift_id=${id}`)
     .then(response => {
       Gifts.value = response.data;
       loading.value = false;
@@ -35,7 +37,7 @@ function post() {
 }
 
 function edit_gift(idVal, nameVal, descVal, priceVal, photoVal) {
-  axios.put(`http://45.144.176.58/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
+  axios.put(`hhttps://trial-flickr-married-emerald.trycloudflare.com/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
     .then(() => {
       GetGifts(giftId);
     })
