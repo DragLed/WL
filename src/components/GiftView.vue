@@ -15,7 +15,7 @@ const price = ref(0);
 const photo = ref('');
 
 function GetGifts(id) {
-  axios.get(`http://127.0.0.1:8000/gift_by_id?gift_id=${id}`)
+  axios.get(`http://45.144.176.58/gift_by_id?gift_id=${id}`)
     .then(response => {
       Gifts.value = response.data;
       loading.value = false;
@@ -35,7 +35,7 @@ function post() {
 }
 
 function edit_gift(idVal, nameVal, descVal, priceVal, photoVal) {
-  axios.put(`http://127.0.0.1:8000/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
+  axios.put(`http://45.144.176.58/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`)
     .then(() => {
       GetGifts(giftId);
     })
@@ -250,3 +250,5 @@ onMounted(() => {
   box-shadow: 0 8px 20px rgba(0, 255, 174, 0.5);
 }
 </style>
+
+
