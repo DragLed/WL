@@ -12,7 +12,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('https://arbitration-yours-discounts-exports.trycloudflare.com/all_gifts')
+  axios.get('https://briefly-finish-infrared-interpreted.trycloudflare.com/all_gifts')
     .then(response => {
       Gidts.value = response.data;
     })
@@ -29,7 +29,7 @@ function PostGift() {
       price: price.value,
       photo: photo.value
     };
-    axios.post('https://arbitration-yours-discounts-exports.trycloudflare.com/new_gift', null, { params: newGift })
+    axios.post('https://briefly-finish-infrared-interpreted.trycloudflare.com/new_gift', null, { params: newGift })
       .then(response => {
         console.log(response.data);
         GetGifts();
@@ -47,7 +47,7 @@ function PostGift() {
 }
 
 function DelGift(id) {
-  axios.delete(`https://arbitration-yours-discounts-exports.trycloudflare.com/delete_gift?gift_id=${id}`)
+  axios.delete(`https://briefly-finish-infrared-interpreted.trycloudflare.com/delete_gift?gift_id=${id}`)
     .then(() => {
       GetGifts();
     })
