@@ -12,7 +12,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('https://briefly-finish-infrared-interpreted.trycloudflare.com/all_gifts')
+  axios.get('http://127.0.0.1:8000/all_gifts')
     .then(response => {
       Gidts.value = response.data;
     })
@@ -29,7 +29,7 @@ function PostGift() {
       price: price.value,
       photo: photo.value
     };
-    axios.post('https://briefly-finish-infrared-interpreted.trycloudflare.com/new_gift', null, { params: newGift })
+    axios.post('http://127.0.0.1:8000/new_gift', null, { params: newGift })
       .then(response => {
         console.log(response.data);
         GetGifts();
@@ -47,7 +47,7 @@ function PostGift() {
 }
 
 function DelGift(id) {
-  axios.delete(`https://briefly-finish-infrared-interpreted.trycloudflare.com/delete_gift?gift_id=${id}`)
+  axios.delete(`http://127.0.0.1:8000/delete_gift?gift_id=${id}`)
     .then(() => {
       GetGifts();
     })
@@ -211,3 +211,5 @@ onMounted(() => {
   box-shadow: 0 10px 25px rgba(0,255,174,0.6);
 }
 </style>
+
+
