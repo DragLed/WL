@@ -49,9 +49,6 @@ onMounted(() => {
 
 <template>
   <div class="container">
-    <nav class="main-nav">
-      <router-link to="/" class="nav-link">На главную</router-link>
-    </nav>
 
     <div v-if="loading" class="centered-message">
       <div class="loader"></div>
@@ -94,6 +91,8 @@ onMounted(() => {
       <p>🎁 Подарок не найден</p>
     </div>
   </div>
+
+  
 </template>
 
 <style scoped>
@@ -103,7 +102,6 @@ onMounted(() => {
   align-items: center;
   padding: 2rem;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e1e2f, #121212);
   min-height: 100vh;
   color: #fff;
 }
@@ -181,24 +179,6 @@ onMounted(() => {
   to { transform: rotate(360deg); }
 }
 
-/* Кнопка "На главную" */
-.nav-link {
-  display: inline-block;
-  padding: 10px 25px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #00ffae, #00bfae);
-  color: #121212;
-  font-weight: 600;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 5px 15px rgba(0, 255, 174, 0.4);
-  margin-bottom: 20px;
-}
-
-.nav-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 255, 174, 0.5);
-}
 
 /* Группы input с span слева */
 .input-group {

@@ -67,6 +67,7 @@ onMounted(() => {
 <template>
 <div class="container">
   <div class="form">
+    <h1> <span class="title" style="font-size: 25px;">Добавить подарок</span> 🎁</h1>
     <input type="text" v-model="name" placeholder="Название подарка" class="input" />
     <input type="text" v-model="description" placeholder="Описание" class="input" />
     <input type="number" v-model="price" placeholder="Цена" class="input" />
@@ -79,7 +80,7 @@ onMounted(() => {
     <div v-for="(item, index) in Gidts" :key="index" class="gift-card">
       <h2 class="gift-name">📦 {{ item.name }}</h2>
       <p class="gift-price">💰 {{ item.price }} ₽</p>
-      <p class="gift-desc">📝 {{ item.description }}</p>
+      <p class="gift-desc"><span>📝</span> {{ item.description }}</p>
       <p v-if="item.photo"><a :href="item.photo" target="_blank">Ссылочка</a></p>
       <button @click="DelGift(item.id)" class="btn">❌</button>
       <button @click="Go_to_gift(item.id)" class="btn">✏️</button>
@@ -96,7 +97,6 @@ onMounted(() => {
   align-items: center;
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #121212, #1e1e2f);
   min-height: 100vh;
   color: #e0e0e0;
 }
@@ -157,6 +157,10 @@ onMounted(() => {
   white-space: normal;
 }
 
+.gift-list span{
+  margin-right: 7px;
+}
+
 .gift-card a {
   color: #00bfae;
   text-decoration: underline;
@@ -174,6 +178,7 @@ onMounted(() => {
 .form {
   display: flex;
   flex-direction: column;
+  text-align: center;
   gap: 1rem;
   width: 300px;
   margin-top: 2rem;
