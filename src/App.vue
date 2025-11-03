@@ -1,4 +1,31 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+
+const user = ref([])
+
+function GetAuthUser() {
+  user.value = []
+    axios.get(`http://127.0.0.1:8000/me`, {withCredentials: true})
+    .then(response => {
+      user.value = response.data;
+      console.log("Пользователь:", user.value);
+    })
+    .catch(err => {
+      if (err.response?.status === 401) {
+        console.log("JWT отсутствует или просрочен");
+      } else {
+        console.error(err);
+      }
+    });
+}
+
+
+onMounted(() => {
+  GetAuthUser();
+});
+
 </script>
 
 <template>

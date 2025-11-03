@@ -12,7 +12,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('http://127.0.0.1:8000/all_gifts')
+  axios.get('http://127.0.0.1:8000/all_gifts', {withCredentials: true})
     .then(response => {
       Gidts.value = response.data;
     })
@@ -29,7 +29,7 @@ function PostGift() {
       price: price.value,
       photo: photo.value
     };
-    axios.post('http://127.0.0.1:8000/new_gift', null, { params: newGift })
+    axios.post('http://127.0.0.1:8000/new_gift', null, { params: newGift, withCredentials: true })
       .then(response => {
         console.log(response.data);
         GetGifts();
@@ -47,7 +47,7 @@ function PostGift() {
 }
 
 function DelGift(id) {
-  axios.delete(`http://127.0.0.1:8000/delete_gift?gift_id=${id}`)
+  axios.delete(`http://127.0.0.1:8000/delete_gift?gift_id=${id}` , {withCredentials: true})
     .then(() => {
       GetGifts();
     })
