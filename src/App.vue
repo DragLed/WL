@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 
 const user = ref([])
 
 function GetAuthUser() {
   user.value = []
-    axios.get(`http://127.0.0.1:8000/me`, {withCredentials: true})
+    axios.get(`http://127.0.0.1:8000/users/me`, {withCredentials: true})
     .then(response => {
       user.value = response.data;
       console.log("Пользователь:", user.value);
@@ -18,6 +20,7 @@ function GetAuthUser() {
       } else {
         console.error(err);
       }
+      router.push("/login")
     });
 }
 

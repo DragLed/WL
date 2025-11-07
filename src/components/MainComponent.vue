@@ -12,7 +12,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('http://127.0.0.1:8000/all_gifts', {withCredentials: true})
+  axios.get('http://127.0.0.1:8000/gifts/', {withCredentials: true})
     .then(response => {
       Gidts.value = response.data;
     })

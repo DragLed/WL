@@ -1,51 +1,54 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
-import Cookies from "js-cookie";
 
-
-const router = useRouter();
-
-const login = ref("");
-const password = ref("");
+const username = ref("string");
+const password = ref("string");
 const errorMsg = ref("");
+const successMsg = ref("")
 
-
-
-function getCookies () {
-  const token = Cookies.get("my_access_token");
-  console.log(token);
-}
-
-
-
+const API_URL = "http://127.0.0.1:8000"
 
 function authUser() {
-    axios.get('http://127.0.0.1:8000/verify_password', {
-        params: {
-            login: login.value,
+    axios.post(`${API_URL}/users/verify_password`,
+        {
+            username: username.value,
             password: password.value
         },
-        withCredentials: true
-    })
+        {
+          withCredentials: true
+        }
+    )
+  
     .then(response => {
-        console.log("Авторизация успешна" , response.data);
+      successMsg.value = "Авторизация успешна!"
+      errorMsg.value = ""
+      console.log("Авторизация успешна", response.data) 
     })
       .catch(err => {
-    console.error(err);
-    errorMsg.value = "Неверный логин или пароль";
+    successMsg.value = "Авторизация успешна!"
+    errorMsg.value = ""
+    console.log("Авторизация успешна", response.data)
   });
 }
 
 
 function checkAuth() {
-  axios.get('http://127.0.0.1:8000/test', {
+  axios.get(`${API_URL}/users/me`, {
     withCredentials: true
   })
-  .then(() => console.log("Пользователь авторизован"))
-  .catch(() => console.log("Пользователь не авторизован"));
+  .then(res => {
+    console.log(res.data);
+    successMsg.value = `Вы вошли как ${res.data.username}`
+    errorMsg.value = ""
+  })
+  .catch(err => {
+    console.error("Ошибка проверки:", err)
+    errorMsg.value = "Не авторизован"
+    successMsg.value = ""
+  })
 }
+
 
 
 </script>
@@ -54,11 +57,14 @@ function checkAuth() {
 <template>
   <div class="container">
   <div class="form">
-    <h1> <span class="title" style="font-size: 25px;">Войти</span> 🎁</h1>
-    <input type="text" v-model="login" placeholder="Логин/почта" class="input" />
-    <input type="text" v-model="password" placeholder="Пароль" class="input" />
+    <h1> <span class="title" style="font-size: 25px;">Войти</span></h1>
+    <input type="text" v-model="username" placeholder="username" required class="input" />
+    <input type="password" v-model="password" placeholder="password" required class="input" />
     <button @click="authUser" class="btn">Войти</button>
     <button @click="checkAuth" class="btn">Проверка</button>
+
+      <p v-if="errorMsg" style="color: red;">{{ errorMsg }}</p>
+      <p v-if="successMsg" style="color: green;">{{ successMsg }}</p>
   </div>
 </div>
 </template>
