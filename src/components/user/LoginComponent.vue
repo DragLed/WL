@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const username = ref("string");
-const password = ref("string");
+const username = ref("");
+const password = ref("");
 const errorMsg = ref("");
 const successMsg = ref("")
 

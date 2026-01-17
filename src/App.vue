@@ -4,15 +4,18 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+const API_URL = "http://127.0.0.1:8000"
 
+const auth = ref(false);
 const user = ref([])
 
 function GetAuthUser() {
   user.value = []
-    axios.get(`http://127.0.0.1:8000/users/me`, {withCredentials: true})
+    axios.get(`${API_URL}/users/me`, {withCredentials: true})
     .then(response => {
       user.value = response.data;
       console.log("Пользователь:", user.value);
+      auth.value = true;
     })
     .catch(err => {
       if (err.response?.status === 401) {
@@ -39,7 +42,7 @@ onMounted(() => {
           <div class="main">
             <router-link to="/" class="nav-link">На главную</router-link>
           </div>
-          <div class="authentication">
+          <div v-if="!auth" class="authentication">
             <router-link to="/login" class="nav-link">Войти</router-link>
             <router-link to="/registerUser" class="nav-link">Зарегестрироваться</router-link>
           </div>
@@ -52,7 +55,7 @@ onMounted(() => {
     </main>
     
     <footer class="app-footer">
-      <p>© 2025 DragLed. Все права защищены.</p>
+      <p>© 2025 - 2026 | DragLed. | Все права защищены.</p>
     </footer>
   </div>
 </template>

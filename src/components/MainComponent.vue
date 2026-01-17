@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+const API_URL = "http://127.0.0.1:8000"
+
 const Gidts = ref([]);
 const name = ref('');
 const description = ref('');
@@ -12,7 +14,7 @@ const photo = ref(null);
 
 function GetGifts() {
   Gidts.value = [];
-  axios.get('http://127.0.0.1:8000/gifts/', {withCredentials: true})
+  axios.get(`${API_URL}/gifts/`, {withCredentials: true})
     .then(response => {
       Gidts.value = response.data;
     })
@@ -23,13 +25,15 @@ function GetGifts() {
 
 function PostGift() {
   if (name.value !== '' && description.value !== '' && price.value > 0) {
-    const newGift = {
-      name: name.value,
-      description: description.value,
-      price: price.value,
-      photo: photo.value
-    };
-    axios.post('http://127.0.0.1:8000/new_gift', null, { params: newGift, withCredentials: true })
+    axios.post(`${API_URL}/gifts`, {
+        name: name.value,
+        description: description.value,
+        price: price.value,
+        photo: photo.value
+      }, 
+        {withCredentials: true})
+
+        
       .then(response => {
         console.log(response.data);
         GetGifts();
@@ -47,7 +51,7 @@ function PostGift() {
 }
 
 function DelGift(id) {
-  axios.delete(`http://127.0.0.1:8000/delete_gift?gift_id=${id}` , {withCredentials: true})
+  axios.delete(`${API_URL}/gifts/${id}` , {withCredentials: true})
     .then(() => {
       GetGifts();
     })

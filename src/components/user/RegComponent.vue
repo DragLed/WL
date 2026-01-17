@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
+const API_URL = "http://127.0.0.1:8000"
+
 const email = ref('');
 const login = ref('');
 const password = ref('');
@@ -26,13 +28,11 @@ function register_user(){
         return;
     }
 
-
-    const newUser = {
-      email: email.value,
-      login: login.value,
-      password: password.value
-    };
-    axios.post('http://127.0.0.1:8000/register', null, { params: newUser })
+    axios.post(`${API_URL}/users`, { 
+        username: login.value,
+        email: email.value,
+        password: password.value
+    })
     .then(response => {
         errorMsg.value = '';
         console.log(response.data);

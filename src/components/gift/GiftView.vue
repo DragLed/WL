@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
+const API_URL = "http://127.0.0.1:8000"
+
 const route = useRoute();
 const giftId = parseInt(route.params.id);
 
@@ -15,7 +17,7 @@ const price = ref(0);
 const photo = ref('');
 
 function GetGifts(id) {
-  axios.get(`http://127.0.0.1:8000/gift_by_id?gift_id=${id}`, {withCredentials: true})
+  axios.get(`${API_URL}/gifts/${id}`, {withCredentials: true})
     .then(response => {
       Gifts.value = response.data;
       loading.value = false;
@@ -35,11 +37,20 @@ function post() {
 }
 
 function edit_gift(idVal, nameVal, descVal, priceVal, photoVal) {
-  axios.put(`http://127.0.0.1:8000/edit_gift_by_id?id=${idVal}&name=${nameVal}&description=${descVal}&price=${priceVal}&photo=${photoVal}`, {withCredentials: true})
+  axios.put(`${API_URL}/gifts/${idVal}`,{
+    name: nameVal,
+    description: descVal,
+    price: priceVal,
+    photo: photoVal
+  },
+   {withCredentials: true})
+
     .then(() => {
       GetGifts(giftId);
     })
-    .catch(() => {});
+    .catch(() => {
+      alert("Ошибка при изменении подарка");
+    });
 }
 
 onMounted(() => {
@@ -57,14 +68,14 @@ onMounted(() => {
 
     <div v-else-if="Gifts" class="gift-list">
       <div class="gift-card">
-        <h2 class="gift-name">📦 {{ Gifts.name }}</h2>
-        <p class="gift-price">💰 {{ Gifts.price }} ₽</p>
-        <p class="gift-desc">📝 {{ Gifts.description }}</p>
-        <p class="gift-id">🆔 {{ Gifts.id }}</p>
+        <h2 class="gift-name">📦 {{ name }}</h2>
+        <p class="gift-price">💰 {{ price }} ₽</p>
+        <p class="gift-desc">📝 {{ description }}</p>
+        <p class="gift-id">🆔 {{ id }}</p>
       </div>
 
       <div class="gift-card">
-        <p class="gift-name">Изменение: "{{Gifts.name}}"</p>
+        <p class="gift-name">Изменение: "{{ name }}"</p>
         <div class="input-group">
           <span>Название:</span>
           <input placeholder="Название подарка" v-model="name" type="text" class="input" />
@@ -81,7 +92,7 @@ onMounted(() => {
           <span>Ссылка:</span>
           <input placeholder="Ссылка" v-model="photo" type="text" class="input" />
         </div>
-        <button @click="edit_gift(Gifts.id, name, description, price, photo)" class="btn">
+        <button @click="edit_gift(id, name, description, price, photo)" class="btn">
           Редактировать подарок
         </button>
       </div>
