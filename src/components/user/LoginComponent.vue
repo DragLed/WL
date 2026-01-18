@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
+const router = useRouter();
 
 const username = ref("");
 const password = ref("");
@@ -24,11 +26,12 @@ function authUser() {
       successMsg.value = "Авторизация успешна!"
       errorMsg.value = ""
       console.log("Авторизация успешна", response.data) 
+      router.push("/")
     })
       .catch(err => {
-    successMsg.value = "Авторизация успешна!"
-    errorMsg.value = ""
-    console.log("Авторизация успешна", response.data)
+    successMsg.value = ""
+    errorMsg.value = "Ошибка авторизации"
+    console.log("Ошибка авторизации", err.response.data)
   });
 }
 
@@ -61,7 +64,7 @@ function checkAuth() {
     <input type="text" v-model="username" placeholder="username" required class="input" />
     <input type="password" v-model="password" placeholder="password" required class="input" />
     <button @click="authUser" class="btn">Войти</button>
-    <button @click="checkAuth" class="btn">Проверка</button>
+    <!-- <button @click="checkAuth" class="btn">Проверка</button> -->
 
       <p v-if="errorMsg" style="color: red;">{{ errorMsg }}</p>
       <p v-if="successMsg" style="color: green;">{{ successMsg }}</p>

@@ -1,8 +1,8 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const API_URL = "http://127.0.0.1:8000"
 
 const email = ref('');
@@ -40,6 +40,7 @@ function register_user(){
         email.value = '';
         login.value = '';
         password.value = '';
+        router.push("/")
     })
     .catch(error => {
         console.error("Ошибка при добавлении:", error.message);

@@ -28,6 +28,18 @@ function GetAuthUser() {
 }
 
 
+function logout() {
+  axios.post(`${API_URL}/users/logout`, {}, {withCredentials: true})
+    .then(() => {
+      auth.value = false;
+      user.value = [];
+      router.push("/login");
+    })
+    .catch(err => {
+      console.error("Ошибка при выходе:", err);
+    });
+}
+
 onMounted(() => {
   GetAuthUser();
 });
@@ -45,6 +57,9 @@ onMounted(() => {
           <div v-if="!auth" class="authentication">
             <router-link to="/login" class="nav-link">Войти</router-link>
             <router-link to="/registerUser" class="nav-link">Зарегестрироваться</router-link>
+          </div>
+          <div v-else>
+            <p class="nav-link" @click="logout">Выйти</p>
           </div>
         </nav>
       </div>
@@ -99,6 +114,7 @@ onMounted(() => {
   margin: 0 10px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 /* Эффект свечения при наведении */

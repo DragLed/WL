@@ -25,7 +25,7 @@ function GetGifts() {
 
 function PostGift() {
   if (name.value !== '' && description.value !== '' && price.value > 0) {
-    axios.post(`${API_URL}/gifts`, {
+    axios.post(`${API_URL}/gifts/`, {
         name: name.value,
         description: description.value,
         price: price.value,
@@ -78,7 +78,7 @@ onMounted(() => {
     <input type="text" v-model="photo" placeholder="Ссылка/фото" class="input" />
     <button @click="PostGift" class="btn">Добавить подарок</button>
   </div>
-  <h1>🎁 <span class="title">Список подарков</span></h1>
+  <h1>🎁 <span class="title">Мои подарки</span></h1>
 
   <div v-if="Gidts.length" class="gift-list">
     <div v-for="(item, index) in Gidts" :key="index" class="gift-card">
