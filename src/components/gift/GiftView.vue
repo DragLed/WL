@@ -1,24 +1,25 @@
 <script setup>
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const API_URL = "http://127.0.0.1:8000"
-
+const router = useRouter();
+const API_URL = "http://127.0.0.1:8000";
 const route = useRoute();
 const giftId = parseInt(route.params.id);
 
 const Gifts = ref(null);
 const loading = ref(true);
 const id = ref(0);
-const name = ref('');
-const description = ref('');
+const name = ref("");
+const description = ref("");
 const price = ref(0);
-const photo = ref('');
+const photo = ref("");
 
 function GetGifts(id) {
-  axios.get(`${API_URL}/gifts/${id}`, {withCredentials: true})
-    .then(response => {
+  axios
+    .get(`${API_URL}/gifts/${id}`, { withCredentials: true })
+    .then((response) => {
       Gifts.value = response.data;
       loading.value = false;
       post();
@@ -37,16 +38,21 @@ function post() {
 }
 
 function edit_gift(idVal, nameVal, descVal, priceVal, photoVal) {
-  axios.put(`${API_URL}/gifts/${idVal}`,{
-    name: nameVal,
-    description: descVal,
-    price: priceVal,
-    photo: photoVal
-  },
-   {withCredentials: true})
+  axios
+    .put(
+      `${API_URL}/gifts/${idVal}`,
+      {
+        name: nameVal,
+        description: descVal,
+        price: priceVal,
+        photo: photoVal,
+      },
+      { withCredentials: true },
+    )
 
     .then(() => {
       GetGifts(giftId);
+      router.push("/");
     })
     .catch(() => {
       alert("Ошибка при изменении подарка");
@@ -60,7 +66,6 @@ onMounted(() => {
 
 <template>
   <div class="container">
-
     <div v-if="loading" class="centered-message">
       <div class="loader"></div>
       <p>Загрузка подарка...</p>
@@ -78,21 +83,45 @@ onMounted(() => {
         <p class="gift-name">Изменение: "{{ name }}"</p>
         <div class="input-group">
           <span>Название:</span>
-          <input placeholder="Название подарка" v-model="name" type="text" class="input" />
+          <input
+            placeholder="Название подарка"
+            v-model="name"
+            type="text"
+            class="input"
+          />
         </div>
         <div class="input-group">
           <span>Цена:</span>
-          <input placeholder="Цена" v-model="price" type="number" class="input" />
+          <input
+            placeholder="Цена"
+            v-model="price"
+            type="number"
+            class="input"
+          />
         </div>
         <div class="input-group">
           <span>Описание:</span>
-          <input placeholder="Описание" v-model="description" type="text" class="input" />
+          <input
+            placeholder="Описание"
+            v-model="description"
+            type="text"
+            class="input"
+          />
         </div>
         <div class="input-group">
           <span>Ссылка:</span>
-          <input placeholder="Ссылка" v-model="photo" type="text" class="input" />
+          <input
+            placeholder="Ссылка"
+            v-model="photo"
+            type="text"
+            class="input"
+          />
         </div>
-        <button @click="edit_gift(id, name, description, price, photo)" class="btn">
+        <button class="btn" @click="router.push('/')">Назад↩️</button>
+        <button
+          @click="edit_gift(id, name, description, price, photo)"
+          class="btn"
+        >
           Редактировать подарок
         </button>
       </div>
@@ -102,8 +131,6 @@ onMounted(() => {
       <p>🎁 Подарок не найден</p>
     </div>
   </div>
-
-  
 </template>
 
 <style scoped>
@@ -112,7 +139,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   min-height: 100vh;
   color: #fff;
 }
@@ -133,8 +160,10 @@ onMounted(() => {
   max-width: 400px;
   text-align: center;
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .gift-card:hover {
@@ -187,9 +216,10 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 
 /* Группы input с span слева */
 .input-group {
@@ -214,7 +244,9 @@ onMounted(() => {
   font-size: 1rem;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .input:focus {
@@ -224,6 +256,7 @@ onMounted(() => {
 }
 
 .btn {
+  margin-left: 30px;
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 1rem;
@@ -232,7 +265,9 @@ onMounted(() => {
   color: #121212;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   margin-top: 10px;
 }
 
@@ -241,5 +276,3 @@ onMounted(() => {
   box-shadow: 0 8px 20px rgba(0, 255, 174, 0.5);
 }
 </style>
-
-

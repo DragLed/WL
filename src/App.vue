@@ -1,41 +1,42 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
-const API_URL = "http://127.0.0.1:8000"
+const API_URL = "http://127.0.0.1:8000";
 
 const auth = ref(false);
-const user = ref([])
+const user = ref([]);
 
 function GetAuthUser() {
-  user.value = []
-    axios.get(`${API_URL}/users/me`, {withCredentials: true})
-    .then(response => {
+  user.value = [];
+  axios
+    .get(`${API_URL}/users/me`, { withCredentials: true })
+    .then((response) => {
       user.value = response.data;
       console.log("Пользователь:", user.value);
       auth.value = true;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.response?.status === 401) {
         console.log("JWT отсутствует или просрочен");
       } else {
         console.error(err);
       }
-      router.push("/login")
+      router.push("/login");
     });
 }
 
-
 function logout() {
-  axios.post(`${API_URL}/users/logout`, {}, {withCredentials: true})
+  axios
+    .post(`${API_URL}/users/logout`, {}, { withCredentials: true })
     .then(() => {
       auth.value = false;
       user.value = [];
       router.push("/login");
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Ошибка при выходе:", err);
     });
 }
@@ -43,7 +44,6 @@ function logout() {
 onMounted(() => {
   GetAuthUser();
 });
-
 </script>
 
 <template>
@@ -56,7 +56,9 @@ onMounted(() => {
           </div>
           <div v-if="!auth" class="authentication">
             <router-link to="/login" class="nav-link">Войти</router-link>
-            <router-link to="/registerUser" class="nav-link">Зарегестрироваться</router-link>
+            <router-link to="/register" class="nav-link"
+              >Зарегестрироваться</router-link
+            >
           </div>
           <div v-else>
             <p class="nav-link" @click="logout">Выйти</p>
@@ -64,11 +66,11 @@ onMounted(() => {
         </nav>
       </div>
     </header>
-    
+
     <main class="app-content">
       <router-view />
     </main>
-    
+
     <footer class="app-footer">
       <p>© 2025 - 2026 | DragLed. | Все права защищены.</p>
     </footer>
@@ -77,18 +79,18 @@ onMounted(() => {
 
 <style scoped>
 /* Фон приложения */
-#app{
+#app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #121212, #1e1e2f);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
   transition: background 0.5s ease;
 }
 
 /* Навигация */
-.main-nav{
+.main-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -119,13 +121,17 @@ onMounted(() => {
 
 /* Эффект свечения при наведении */
 .nav-link::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0,255,174,0.3) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 174, 0.3) 0%,
+    transparent 70%
+  );
   transform: scale(0);
   transition: transform 0.5s ease;
   pointer-events: none;
@@ -141,7 +147,7 @@ onMounted(() => {
 }
 
 /* Основной контент */
-.app-content{
+.app-content {
   flex: 1;
   padding: 40px 30px;
   display: flex;
@@ -152,7 +158,7 @@ onMounted(() => {
 }
 
 /* Футер */
-.app-footer{
+.app-footer {
   padding: 20px;
   text-align: center;
   font-size: 14px;
